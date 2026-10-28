@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Blocks all network access: only this page's own files can load. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'">
+  <title>Rack Line Sorter</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+<div class="wrap">
+  <header>
+    <h1>Rack Line Sorter</h1>
+    <p class="sub">Paste your list, tap the field to group by, then walk it rack by rack.</p>
+  </header>
+
+  <section>
+    <label class="label" for="input">1 · Paste lines</label>
+    <textarea id="input" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+    <div class="row">
+      <button id="clearBtn" type="button">Clear</button>
+      <button id="sampleBtn" type="button">Load example</button>
+      <span class="hint">Fields are split on spaces. Extra spaces are ignored.</span>
+    </div>
+  </section>
+
+  <section>
+    <span class="label">2 · Group by field</span>
+    <div class="fields" id="fields"></div>
+    <p class="hint" id="fieldHint">Tap once to group by a field. Tap a second field to sort lines inside each group.</p>
+  </section>
+
+  <section>
+    <label class="label" for="filter">3 · Filter groups</label>
+    <input type="text" id="filter" placeholder="e.g. f09 or c0" autocapitalize="off" autocomplete="off" spellcheck="false">
+  </section>
+
+  <section>
+    <div class="row toolbar">
+      <div class="summary" id="summary"></div>
+      <div class="row">
+        <button id="resetDone" type="button">Uncheck all</button>
+        <button id="copyBtn" type="button" class="primary">Copy grouped</button>
+      </div>
+    </div>
+    <div class="toast" id="toast" aria-live="polite"></div>
+    <nav class="jump" id="jump" aria-label="Jump to group"></nav>
+  </section>
+
+  <div id="groups" class="groups"></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
