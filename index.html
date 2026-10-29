@@ -3,55 +3,70 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Blocks all network access: only this page's own files can load. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'">
+  <!-- Blocks every network request: only this page's own files can load.
+       Nothing you paste can leave this device. -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; style-src 'self' file:; script-src 'self' file:; base-uri 'none'; form-action 'none'">
   <title>Rack Line Sorter</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<main class="wrap">
 
-<div class="wrap">
   <header>
     <h1>Rack Line Sorter</h1>
-    <p class="sub">Paste your list, tap the field to group by, then walk it rack by rack.</p>
+    <p class="sub">Paste a list, pick the column to group by, then work through it group by group.</p>
   </header>
 
   <section>
-    <label class="label" for="input">1 · Paste lines</label>
-    <textarea id="input" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+    <label class="label" for="text">1 &middot; Paste lines</label>
+    <textarea id="text" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off"></textarea>
     <div class="row">
-      <button id="clearBtn" type="button">Clear</button>
-      <button id="sampleBtn" type="button">Load example</button>
-      <span class="hint">Fields are split on spaces. Extra spaces are ignored.</span>
+      <button id="clear" type="button">Clear</button>
+      <button id="example" type="button">Load example</button>
+      <span class="hint">Columns are split on spaces. Blank lines are ignored.</span>
     </div>
   </section>
 
   <section>
-    <span class="label">2 · Group by field</span>
-    <div class="fields" id="fields"></div>
-    <p class="hint" id="fieldHint">Tap once to group by a field. Tap a second field to sort lines inside each group.</p>
+    <span class="label" id="groupByLabel">2 &middot; Group by column</span>
+    <div class="chips" id="fields" role="group" aria-labelledby="groupByLabel"></div>
+    <div class="row">
+      <label class="hint" for="sortBy">Then sort inside each group by</label>
+      <select id="sortBy"></select>
+    </div>
   </section>
 
   <section>
-    <label class="label" for="filter">3 · Filter groups</label>
-    <input type="text" id="filter" placeholder="e.g. f09 or c0" autocapitalize="off" autocomplete="off" spellcheck="false">
+    <label class="label" for="filter">3 &middot; Filter groups</label>
+    <input id="filter" type="text" placeholder="e.g. f09" autocapitalize="off" autocomplete="off" spellcheck="false">
+    <span class="hint">Shows only groups whose name contains this text.</span>
   </section>
 
   <section>
     <div class="row toolbar">
       <div class="summary" id="summary"></div>
       <div class="row">
-        <button id="resetDone" type="button">Uncheck all</button>
-        <button id="copyBtn" type="button" class="primary">Copy grouped</button>
+        <div class="hl" id="hl">
+          <button id="hlButton" type="button" class="hl-button"
+                  aria-haspopup="true" aria-expanded="false">
+            <span class="hl-mark" aria-hidden="true"></span>
+            <span id="hlLabel">Highlight</span>
+          </button>
+          <div class="hl-palette" id="hlPalette" role="group" aria-label="Highlighter colour" hidden></div>
+        </div>
+        <button id="uncheck" type="button">Uncheck all</button>
+        <button id="copy" type="button" class="primary">Copy grouped</button>
       </div>
     </div>
-    <div class="toast" id="toast" aria-live="polite"></div>
-    <nav class="jump" id="jump" aria-label="Jump to group"></nav>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+    <nav class="jump" id="jump" aria-label="Jump to a group"></nav>
   </section>
 
-  <div id="groups" class="groups"></div>
-</div>
+  <div class="groups" id="groups"></div>
+
+</main>
 
 <script src="app.js"></script>
 </body>

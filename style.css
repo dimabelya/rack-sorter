@@ -1,89 +1,335 @@
+/* ---------- colours and fonts ---------- */
+
 :root {
-  --bg: #eef1f3;
-  --panel: #ffffff;
-  --fg: #172027;
-  --muted: #5b6872;
-  --line: #d5dce1;
-  --accent: #d9811c;
-  --accent-ink: #ffffff;
+  --bg:          #eef1f3;
+  --panel:       #ffffff;
+  --fg:          #172027;
+  --muted:       #5b6872;
+  --line:        #d5dce1;
+  --accent:      #b35c00;
+  --accent-ink:  #ffffff;
   --accent-soft: #fbe9d3;
-  --done: #2f8a5b;
-  --display: "Barlow Semi Condensed", "Arial Narrow", sans-serif;
-  --body: "IBM Plex Sans", system-ui, sans-serif;
-  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --done:        #1f7a4d;
+
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "DejaVu Sans Mono", "Cascadia Mono", Menlo, Consolas, monospace;
 }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #12171b; --panel: #1b2228; --fg: #e3e9ed; --muted: #8e9ba5; --line: #2c363e;
-  --accent: #f0a043; --accent-ink: #1a1206; --accent-soft: #3a2a15; --done: #5fc18f; color-scheme: dark } }
-:root[data-theme="dark"] {
-  --bg: #12171b; --panel: #1b2228; --fg: #e3e9ed; --muted: #8e9ba5; --line: #2c363e;
-  --accent: #f0a043; --accent-ink: #1a1206; --accent-soft: #3a2a15; --done: #5fc18f; color-scheme: dark }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:          #12171b;
+    --panel:       #1b2228;
+    --fg:          #e3e9ed;
+    --muted:       #93a0aa;
+    --line:        #2c363e;
+    --accent:      #f0a043;
+    --accent-ink:  #1a1206;
+    --accent-soft: #3d2c16;
+    --done:        #5fc18f;
+    color-scheme: dark;
+  }
+}
+
+/* ---------- page frame ---------- */
 
 * { box-sizing: border-box; }
+
 body {
-  background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 15px; line-height: 1.45;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 20px 48px;
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 15px/1.45 var(--sans);
+  padding: 20px max(16px, env(safe-area-inset-right, 0px))
+           48px max(16px, env(safe-area-inset-left, 0px));
 }
-.wrap { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
-h1 { font-family: var(--display); font-weight: 700; font-size: 28px; letter-spacing: .01em; margin: 0; text-wrap: balance; }
-.sub { color: var(--muted); margin: 2px 0 0; font-size: 14px; }
-.label { font-family: var(--display); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; font-size: 13px; color: var(--muted); }
+
+.wrap { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+
+h1 { margin: 0; font-size: 26px; line-height: 1.2; }
+.sub { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+
 section { display: flex; flex-direction: column; gap: 8px; }
-textarea, input[type=text] {
-  width: 100%; font-family: var(--mono); font-size: 13px; color: var(--fg); background: var(--panel);
-  border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px;
+
+.label {
+  font-size: 12px; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted);
 }
-textarea { min-height: 150px; resize: vertical; white-space: pre; overflow-x: auto; }
-textarea:focus, input:focus, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.hint { margin: 0; font-size: 13px; color: var(--muted); }
 .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-button {
-  font-family: var(--body); font-size: 14px; font-weight: 500; color: var(--fg); background: var(--panel);
-  border: 1px solid var(--line); border-radius: 6px; padding: 8px 12px; cursor: pointer;
-}
-button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
-.fields { display: flex; flex-wrap: wrap; gap: 6px; }
-.chip {
-  display: inline-flex; align-items: baseline; gap: 6px; font-family: var(--mono); font-size: 13px;
-  padding: 6px 10px; border-radius: 4px; background: var(--panel); border: 1px solid var(--line); cursor: pointer;
-}
-.chip i { font-style: normal; font-size: 11px; color: var(--muted); }
-.chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
-.chip[aria-pressed="true"] i { color: var(--accent-ink); opacity: .75; }
-.chip.then[aria-pressed="true"] { background: var(--accent-soft); color: var(--fg); border-color: var(--accent); }
-.chip.then[aria-pressed="true"] i { color: var(--muted); opacity: 1; }
-.hint { font-size: 13px; color: var(--muted); margin: 0; }
-.summary { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.summary b { color: var(--fg); font-weight: 600; }
-.jump { display: flex; flex-wrap: wrap; gap: 6px; }
-.jump a {
-  font-family: var(--mono); font-size: 12px; text-decoration: none; color: var(--fg);
-  border: 1px solid var(--line); background: var(--panel); border-radius: 4px; padding: 3px 8px;
-}
-.jump a.alldone { color: var(--done); border-color: var(--done); }
-.group { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
-.ghead {
-  display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
-  padding: 10px 14px; border-bottom: 1px solid var(--line); border-left: 4px solid var(--accent);
-}
-.ghead.complete { border-left-color: var(--done); }
-.gkey { font-family: var(--mono); font-weight: 600; font-size: 18px; }
-.gcount { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.lines { list-style: none; margin: 0; padding: 0; }
-.lines li {
-  display: flex; gap: 10px; align-items: flex-start; padding: 9px 14px; border-top: 1px solid var(--line); cursor: pointer;
-}
-.lines li:first-child { border-top: 0; }
-.box { flex: none; width: 18px; height: 18px; margin-top: 1px; border: 1.5px solid var(--muted); border-radius: 4px; display: grid; place-items: center; }
-.lines li.done .box { background: var(--done); border-color: var(--done); }
-.lines li.done .box::after { content: ""; width: 5px; height: 9px; border: solid var(--panel); border-width: 0 2px 2px 0; transform: rotate(45deg) translate(-1px,-1px); }
-.txt { font-family: var(--mono); font-size: 13px; min-width: 0; overflow-wrap: anywhere; }
-.txt mark { background: var(--accent-soft); color: inherit; border-radius: 3px; padding: 0 2px; }
-.lines li.done .txt { color: var(--muted); text-decoration: line-through; }
-.empty { color: var(--muted); font-size: 14px; padding: 18px; text-align: center; border: 1px dashed var(--line); border-radius: 8px; }
-.toast { font-size: 13px; color: var(--done); min-height: 1em; }
-@media (prefers-reduced-motion: no-preference) { .lines li { transition: background .12s; } }
 .toolbar { justify-content: space-between; }
+
+/* ---------- form controls ---------- */
+
+textarea, input[type="text"], select {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--fg);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+textarea, input[type="text"] { width: 100%; }
+textarea { min-height: 150px; resize: vertical; white-space: pre; overflow-x: auto; }
+select { padding: 6px 8px; }
+select:disabled { color: var(--muted); }
+
+button {
+  font: 500 14px var(--sans);
+  color: var(--fg);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- column chips ---------- */
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.chip {
+  display: inline-flex; align-items: baseline; gap: 6px;
+  font-family: var(--mono); font-size: 13px;
+  padding: 6px 10px; border-radius: 4px;
+}
+
+.chip-num { font-size: 11px; color: var(--muted); }
+
+.chip[aria-pressed="true"] {
+  background: var(--accent); color: var(--accent-ink); border-color: var(--accent);
+}
+.chip[aria-pressed="true"] .chip-num { color: var(--accent-ink); opacity: .8; }
+
+/* ---------- summary, status, jump bar ---------- */
+
+.summary {
+  display: flex; flex-wrap: wrap; gap: 4px 14px;
+  font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums;
+}
+.summary b { color: var(--fg); font-weight: 600; }
+
+.status { margin: 0; min-height: 1.45em; font-size: 13px; color: var(--accent); }
+
+.jump { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.jump-item {
+  display: inline-flex; align-items: baseline; gap: 6px;
+  font-family: var(--mono); font-size: 12px;
+  padding: 3px 8px; border-radius: 4px;
+}
+.jump-count { color: var(--muted); }
+.jump-item.complete { color: var(--done); border-color: var(--done); }
+.jump-item.complete .jump-count { color: var(--done); opacity: .75; }
+
+/* ---------- groups ---------- */
+
 .groups { display: flex; flex-direction: column; gap: 12px; }
-.jump .n { opacity: .6; }
+
+.group {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.group-head {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+}
+.group-head.complete { border-left-color: var(--done); }
+
+.group-key { font-family: var(--mono); font-weight: 600; font-size: 18px; }
+.group-count {
+  font-size: 13px; color: var(--muted);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+
+.lines { list-style: none; margin: 0; padding: 0; }
+.lines li { border-top: 1px solid var(--line); }
+.lines li:first-child { border-top: 0; }
+
+.lines label {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 9px 14px; cursor: pointer;
+}
+
+.lines input[type="checkbox"] {
+  flex: none;
+  width: 18px; height: 18px;
+  margin: 1px 0 0;
+  accent-color: var(--done);
+  cursor: pointer;
+}
+
+.line-text {
+  font-family: var(--mono); font-size: 13px;
+  min-width: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.line-text mark { background: var(--accent-soft); color: inherit; border-radius: 3px; padding: 0 2px; }
+
+.lines li.done .line-text { color: var(--muted); text-decoration: line-through; }
+.lines li.done .line-text mark { background: none; padding: 0; }
+
+/* ---------- misc ---------- */
+
+.empty {
+  padding: 18px; text-align: center;
+  font-size: 14px; color: var(--muted);
+  border: 1px dashed var(--line); border-radius: 8px;
+}
+
+/* Holds the throwaway textarea used by the clipboard fallback. */
+.offscreen { position: fixed; top: 0; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .lines label { transition: background .12s; }
+}
+
+/* ---------- notes column ---------- */
+
+/* The row is now two columns: the tickable label, and the note field beside
+   it. The note must stay outside the label, or tapping it would tick the row.
+   flex-wrap only ever takes effect when the note is focused; see below. */
+.lines li { display: flex; flex-wrap: wrap; align-items: flex-start; }
+/* The `0` basis is what keeps the note beside the line instead of under it.
+   With `flex-basis: auto` a long line measures its full text width, which on a
+   narrow screen pushes the note onto a row of its own. A basis of 0 means the
+   label contributes nothing when the browser decides where to break the line,
+   so the two always share one - at any width. flex-grow still hands the label
+   every pixel the note does not use, so it is not actually 0 wide.
+
+   A focused note still wraps to its own line, because its 100% basis plus its
+   own side margins is wider than the row by definition. */
+.lines label { flex: 1 1 0; min-width: 0; padding-right: 0; }
+
+.lines .note {
+  flex: 0 1 min(170px, 32%);
+  min-width: 0;
+  margin: 9px 14px 9px 10px;
+  padding: 1px 4px;
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-bottom: 1px dotted var(--line);
+  border-radius: 0;
+}
+.lines .note::placeholder { color: transparent; }
+.lines .note:hover { border-bottom-color: var(--muted); }
+
+/* With a note in it the text speaks for itself, so the guide line goes away. */
+.lines .note.filled { color: var(--fg); border-bottom-color: transparent; }
+.lines .note:focus { color: var(--fg); border-bottom-color: var(--accent); border-bottom-style: solid; }
+
+/* A note can be a whole short sentence, which will not fit in the narrow
+   column. Focusing it gives it a line of its own at full width, so the whole
+   note is visible while it is being written. It shrinks back on blur. */
+.lines .note:focus { flex-basis: 100%; margin-left: 14px; }
+
+.lines li.done .note { text-decoration: line-through; }
+
+
+/* ---------- highlighter ---------- */
+
+:root {
+  --hl-red:        #d93a3f;
+  --hl-red-bg:     #fdeaea;
+  --hl-green:      #2e9e5b;
+  --hl-green-bg:   #e7f6ed;
+  --hl-yellow:     #cf9c06;
+  --hl-yellow-bg:  #fcf3d4;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --hl-red:       #ef6b6f;
+    --hl-red-bg:    #3b1e20;
+    --hl-green:     #5fc18f;
+    --hl-green-bg:  #1a3327;
+    --hl-yellow:    #e8bb4a;
+    --hl-yellow-bg: #382e11;
+  }
+}
+
+.hl { position: relative; display: inline-flex; }
+
+.hl-button { display: inline-flex; align-items: center; gap: 7px; }
+
+.hl-mark {
+  flex: none;
+  width: 14px; height: 14px;
+  border: 1.5px solid var(--muted);
+  border-radius: 3px;
+}
+
+.hl-button.armed { border-color: var(--hl); box-shadow: inset 0 0 0 1px var(--hl); }
+.hl-button.armed .hl-mark { border-color: var(--hl); background: var(--hl); }
+.hl-button[data-colour="clear"] .hl-mark { background: none; border-style: dashed; }
+
+/* One variable per colour, read by both the button and the rows. */
+[data-colour="red"],    .lines li.hl-red    { --hl: var(--hl-red);    --hl-bg: var(--hl-red-bg); }
+[data-colour="green"],  .lines li.hl-green  { --hl: var(--hl-green);  --hl-bg: var(--hl-green-bg); }
+[data-colour="yellow"], .lines li.hl-yellow { --hl: var(--hl-yellow); --hl-bg: var(--hl-yellow-bg); }
+[data-colour="clear"]   { --hl: var(--muted); }
+
+.hl-palette {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 178px;
+  padding: 6px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .22);
+}
+
+/* Must come after the rule above, or `hidden` would lose to `display: flex`. */
+.hl-palette[hidden] { display: none; }
+
+.hl-swatch-button {
+  display: flex; align-items: center; gap: 9px;
+  justify-content: flex-start;
+  border-color: transparent;
+}
+.hl-swatch-button[aria-pressed="true"] { border-color: var(--accent); }
+
+.hl-swatch {
+  flex: none;
+  width: 16px; height: 16px;
+  border-radius: 3px;
+  border: 1.5px solid var(--hl, var(--muted));
+  background: var(--hl, none);
+}
+.hl-swatch-button[data-colour="clear"] .hl-swatch { background: none; border-style: dashed; }
+
+.hl-stop { margin-top: 3px; font-size: 13px; }
+
+/* A coloured row. The stripe is an inset shadow rather than a border so that
+   adding it cannot shift the text sideways. */
+.lines li.hl { background: var(--hl-bg); box-shadow: inset 4px 0 0 var(--hl); }
+
+/* The group-column highlight needs a backdrop that works on any tint. */
+.lines li.hl .line-text mark { background: rgba(127, 127, 127, .22); }
+
+/* While the highlighter is armed the boxes cannot be ticked, so they are
+   dimmed on every row: a signal that does not scroll out of view. */
+body.is-highlighting .lines input[type="checkbox"] { opacity: .3; }
+body.is-highlighting .lines label { cursor: crosshair; }
