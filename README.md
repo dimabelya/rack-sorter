@@ -4,6 +4,12 @@ Paste a list of space-separated lines, pick the column to group by (for example 
 one holding `f09`), then work through the grouped list rack by rack, ticking lines
 off as you go.
 
+## Live
+
+Open it at https://dimabelya.github.io/rack-sorter/ — this also still works by
+opening `index.html` locally, with no difference in behaviour. On a phone, use
+the browser's "Add to Home Screen" to get an app-like icon.
+
 ## Use
 
 Open `index.html` in a browser. Nothing to install, no build step, no server.
